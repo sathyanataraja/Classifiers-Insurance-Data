@@ -2,6 +2,7 @@ from xgboost import XGBClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 
+
 def RunXGBOOST(TrainData, Target, TestSize, RandomState):
     """ The function splits the data, fits the model, preditrs the classification and probablity of each classification and returns the tet set with the values in a dataframe"""
     X_train, X_test, y_train, y_test = train_test_split(TrainData, Target, test_size=TestSize, random_state=RandomState)
@@ -9,9 +10,12 @@ def RunXGBOOST(TrainData, Target, TestSize, RandomState):
     model.fit(X_train, y_train)
     y_pred = model.predict(X_test)
     y_prob = model.predict_proba(X_test)
+    predictions = [round(value) for value in y_pred] 
     X_test['StatusPrediction'] = y_pred
     X_test['StatusProbability_0'] = y_prob[:,0]
     X_test['StatusProbability_1'] = y_prob[:,1]
-    return X_test
+    Accuracy = accuracy_score(y_test, predictions)
+    AccuracyPercent = (Accuracy * 100.0)
+    return X_test,AccuracyPercent
   
 def RunDecisionTree():
