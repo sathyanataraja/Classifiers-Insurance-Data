@@ -1,5 +1,5 @@
 import pandas as pd
-from utils import *
+from ClassifiersUtils import *
 
 df = pd.read_csv('heart.csv')
 
